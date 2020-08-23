@@ -12,6 +12,8 @@ which essentially does the same thing but also logs the response as
 
 const app = express();
 
+const auth = require('./auth/index');
+
 app.use(volleyball);
 
 app.get('/', (req, res) => {
@@ -19,6 +21,8 @@ app.get('/', (req, res) => {
     message: 'Hello World! Nodemon is working!'
   });
 });
+
+app.use('/auth', auth);
 
 function notFound(req, res, next) {
   res.status(404);
