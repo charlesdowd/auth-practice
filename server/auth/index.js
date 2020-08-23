@@ -10,4 +10,10 @@ router.get('/', (req, res) => {
     });
 })
 
+router.post('/signup', (req, res) => {
+    res.json({
+        message: "auth sign up route hit and nodemon working!"
+    });
+});
+
 module.exports = router;
