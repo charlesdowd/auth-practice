@@ -1,5 +1,6 @@
 const express = require('express');
 const joi = require('joi');
+const bcrypt = require('bcryptjs');
 
 const db = require('../db/connection');
 const users = db.get('users');
@@ -21,10 +22,27 @@ router.get('/', (req, res) => {
     });
 })
 
-router.post('/signup', (req, res) => {
-     console.log("body", req.body);
-     const result = schema.validate(req.body);
-    res.json(result);
+router.post('/signup', (req, res, next) => {
+    const result = schema.validate(req.body);
+    if (!result.error) {
+        // if the username + password fit the schema, check to see already in db
+        users.findOne({
+            username: req.body.username
+        }).then(user => {
+            // if we find the user, that username is in use and they can't signup with it
+            if (user) {
+                const error = new Error("This username is already in use.");
+                next(error)
+            } else {
+                // if user is undefined then it doesnt already exist in our db.. we can add it in
+                bcrypt.hash(req.body.password,12).then(hashedPassword => { 
+                    res.json({ hashedPassword })
+                })
+            }
+        })
+    } else {
+        next(result.error)
+    }
 });
 
 module.exports = router;
