@@ -1,6 +1,11 @@
 const express = require('express');
 const joi = require('joi');
 
+const db = require('../db/connection');
+const users = db.get('users');
+
+users.createIndex('username', { unique: true }); 
+
 const router = express.Router();
 
 const schema = joi.object().keys({

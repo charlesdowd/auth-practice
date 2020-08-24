@@ -12,6 +12,9 @@ which essentially does the same thing but also logs the response as
 
 const app = express();
 
+/* you can also do this: require('./auth') it will automatically 
+grab the index file from the folder you write the path to
+*/
 const auth = require('./auth/index');
 
 app.use(volleyball);
