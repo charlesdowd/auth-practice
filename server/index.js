@@ -18,6 +18,7 @@ grab the index file from the folder you write the path to
 const auth = require('./auth/index');
 
 app.use(volleyball);
+// app.use(express.json()) parses the body of the response for us 
 app.use(express.json());
 
 app.get('/', (req, res) => {
