@@ -35,7 +35,7 @@ router.post('/signup', (req, res, next) => {
                 next(error)
             } else {
                 // if user is undefined then it doesnt already exist in our db.. we can add it in
-                bcrypt.hash(req.body.password,12).then(hashedPassword => { 
+                bcrypt.hash(req.body.password.trim(),12).then(hashedPassword => { 
                     const newUser = {
                         username: req.body.username,
                         password: hashedPassword
